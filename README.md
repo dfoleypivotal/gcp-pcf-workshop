@@ -28,5 +28,21 @@ This workshop will walk you through the process of deploying and monitoring an a
 
    `https://console.cloud.google.com/`
 
+- After you login to your GCP account click on Cloud Shell in the upper right hand corner.
+
+    ![](images/image1.png)
+
+- Cloud Shell will open in the bottom of your browser.
+
+    ![](images/image2.png)
+
+### **STEP 2**: Install PCF on GCP
+- Open a new tab and go the following URL:
+
+   `https://github.com/cf-platform-eng/gcp-pcf-quickstart`
+
+- Follow the instruction for prerequisites, setup DNS and Deploy PCF
+
+
 
 
