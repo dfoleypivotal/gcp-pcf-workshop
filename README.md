@@ -81,6 +81,47 @@ cf login -u admin -p <password from above>
 ```
 ![](images/image7.png)
 
+## Orgs and Spaces
+
+An ***org*** is a development account that an individual or multiple collaborators can own and use. All collaborators access an org with user accounts. Collaborators in an org share a resource quota plan, applications, services availability, and custom domains.
+
+Every application and service is scoped to a ***space***. An org can contain multiple spaces. A space provides users with access to a shared location for application development, deployment, and maintenance. Each space role applies only to a particular space.
+
+For more information you can access Pivotal Documentation at [here](https://docs.pivotal.io/pivotalcf/2-2/concepts/roles.html)
+
+
+### **STEP 4**: Create Org and Space
+
+- We will now use the CLI to create a new Org and Space for deployment of our applications. We will create and Org call ***demo*** and them create a space in that Org call ***dev***.
+
+```
+cf create-org demo
+cf create-space dev -o demo
+```
+![](images/image8.png)
+
+- Now we want to target our CF CLI to this newly created Org and Space:
+
+```
+cf target -o demo -s dev
+```
+![](images/image9.png)
+
+- We are now ready to start deploying applications to our platform.
+
+## Pushing Apps
+
+### **STEP 5**: Download Lab Resource
+
+- We will clone the workshop repository to gain access to all the lab materials.  This guide will assume you are doing the clone from your home directory in Cloud Shell.
+
+```
+cd ~
+git clone https://github.com/dfoleypivotal/gcp-pcf-workshop.git
+```
+
+
+
 
 
 
