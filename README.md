@@ -301,17 +301,154 @@ cf app articulate
 ```
 ![](images/image34.png)
 
+## Services
 
+Up until now, we’ve focused on the deployment of applications. But as we know, applications often use backing services: databases, message brokers, and other applications' services (to name a few).
 
+In this lab, you’ll have the opportunity to experiment with both managed services and user-provided services: you’ll create a mysql backing service to persist information about attendees, and you’ll create a user-provided service to allow one application to consume the services of another without hard-coding its route.
 
+In the process, you’ll learn new cf commands: create-service, create-user-provided-service, and bind-service. Don’t forget: cf help is there to help us understand how to invoke each command.
 
+articulate exposes functionality to add attendees on the Services page. However, articulate doesn’t do this alone. It makes REST calls to the attendee-service application. To learn more about services, let’s provision the attendee-service application.
 
+### **STEP 12**: Push the attendee-service application
 
+- The attendee-service JAR, attendee-service-0.1.jar is in your lab files under its own directory.
 
+- Execute the following commands to push the attendee-service application.
 
+```
+cd ~/gcp-pcf-workshop/pcf-developer-workshop/attendee-service/
+cf push attendee-service -p ./attendee-service-0.1.jar -m 768M --random-route
+```
+![](images/image35.png)
 
+***Note:*** When you push attendee-service it will fail because it references a MySql database which we have not created yet.
 
+![](images/image36.png)
 
+### **STEP 13**: Create Service via GCP Service Broker
 
+PCF operators install the GCP Service Broker to expose select GCP services in the Marketplace. Developers can then provision GCP services by creating and managing service instances with the cf CLI.
+
+Review the [documentation](https://docs.pivotal.io/partners/gcp-sb/index.html) for more information.
+
+- Review what services are available in the marketplace
+
+```
+cf marketplace
+```
+![](images/image37.png)
+
+- As you can see many of the GCP services are available. Lets see what plans are available for Cloud SQL.
+
+```
+cf marketplace -s google-cloudsql-mysql
+``` 
+![](images/image38.png)
+
+- Create a Cloud SQL MySQL database from the marketplace.
+
+```
+cf create-service google-cloudsql-mysql mysql-micro-dev attendee-mysql
+```
+![](images/image39.png)
+
+- You can monitory the progress with the following command.
+
+```
+cf service attendee-mysql
+```
+![](images/image40.png)
+
+- You can also view the progress from the GCP Console.  Back in the browser navigate to the SQL services in the GCP Console.
+
+    ![](images/image41.png)
+
+- Wait until the Cloud SQL instance has create succeeded
+
+    ![](images/image42.png)
+
+- Since we are not created a client certificate we will want to allow unsecured connections to the database.  Back on the GCP Console click the newly create database and click on the ***connections*** page.
+
+    ![](images/image43.png)
+
+- Scroll down and click ***Allow unsecured connection***
+
+    ![](images/image44.png)
+
+### **STEP 14**: Bind Service
+
+- Now that we have a running database we need to bind the service to the application.
+
+```
+cf bind-service attendee-service attendee-mysql -c '{"role":"cloudsql.admin"}'
+```
+![](images/image45.png)
+
+- To make things easy for the lab we will create a network that allows access to the database from the public internet. Click ***Add network*** and add a new with ***CIDR*** 0.0.0.0/0. Click ***Save***
+
+    ![](images/image46.png)
+
+- Restart the application
+
+```
+cf restart attendee-service
+```
+![](images/image47.png)
+
+- View the attendee-service in a browser.
+
+    ![](images/image48.png)
+
+- An http GET to the attendees endpoint will fetch all attendees in the database and display them in JSON format. This application implements a RESTful API. This means that you
+should be able to submit http POST to the same attendees endpoint with a body containing the JSON representation of the Attendee model type to create such a record. This can be
+done programmatically, or via REST client tools such as Postman or command-line tools such as curl or httpie.
+
+### **STEP 14**: Add a User-Provided Service Instance
+
+In the enterprise, not all services will be provisioned by Pivotal Cloud Foundry. For example, consider your Oracle RAC cluster. How can we connect our applications running on Pivotal Cloud Foundry to these external systems? Additionally, how can we easily connect applications together running on the platform? articulate’s default configuration for the attendee-service
+uri is http://localhost:8181/ . The subsequent steps will allow you to override the default configuration with your own.
+
+- Create a user-provided service instance. 
+
+```
+cf create-user-provided-service attendee-service -p uri
+```
+
+***Note:*** This will create an interactive prompt. For the value of uri, enter your attendee-service application's base url:
+
+uri> https://{{attendees_app_uri}}/
+
+![](images/image49.png)
+
+- Bind articulate to the attendee-service user-provided service.
+
+```
+cf bind-service articulate attendee-service
+```
+![](images/image50.png)
+
+- Restart the application.
+
+```
+cf restart articulate
+```
+![](images/image51.png)
+
+- Refresh the articulate Services page. You can now see the attendee-service listed under Services.
+
+    ![](images/image52.png)
+
+- Review the environment.
+
+```
+cf env articulate
+```
+![](images/image53.png)
+
+- Add some attendees.
+
+    ![](images/image54.png)
 
 
