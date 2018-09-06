@@ -119,6 +119,123 @@ cf target -o demo -s dev
 cd ~
 git clone https://github.com/dfoleypivotal/gcp-pcf-workshop.git
 ```
+![](images/image10.png)
+
+### **STEP 6**: Pushing Apps
+
+In ***pcf-developer-workshop*** folder you will find
+a ***demo-apps*** directory. It contains four sub-directories; each
+directory contains an application developed in a different
+language.
+
+- We will start by deploying a basic Node application. Change to the node demo app directory.
+
+```
+cd gcp-pcf-workshop/pcf-developer-workshop/demo-apps/node/
+```
+
+- The Cloud Foundry push command assumes that the artifacts for
+your application are located in the current working directory.
+
+***Note:*** node must be your current directory, not demo-apps. This
+is a common-mistake.
+
+- Now push the ***node*** application:
+
+```
+cf push node --random-route -m 128M
+```
+![](images/image11.png)
+![](images/image12.png)
+
+- We can new use the ***cf apps** command to view all the deployed applications:
+
+```
+cf apps
+```
+![](images/image13.png)
+
+- Make note of the url for you ***node*** application. Now, visit the node application in your browser, or use curl. Expected response is ***Hello Node***
+
+```
+curl <your node application url>
+```
+![](images/image14.png)
+
+- Lets repeat the process but with the ***php*** application:
+
+```
+cd ../php/
+cf push php --random-route -m 128M
+```
+![](images/image15.png)
+![](images/image16.png)
+
+- We can new use the ***cf apps** command to view all the deployed applications:
+
+```
+cf apps
+```
+![](images/image17.png)
+
+- Make note of the url for you ***php*** application. Now, visit the php application in your browser, or use curl. Expected response is ***Hello PHP***
+
+```
+curl <your php application url>
+```
+![](images/image18.png)
+
+- Repeat these steps for the python and ruby applications.
+
+You just deployed four applications each based on a different
+language and runtime. Pivotal Cloud Foundry is a polyglot
+platform, meaning it supports multiple languages and does so in
+a pluggable way (via buildpacks)!
+
+- Switch over to you browser and let refresh the Apps Manger page. You may have to login again. On the left hand side select the ***demo*** ORG and then select the ***dev** SPACE. You should now see all 4 application.
+
+    ![](images/image19.png)
+
+- Apps Manager give you a GUI that allows you to manage all your deployments the same way you would via the CF CLI. Click around to get familiar with the Apps Manager.  If you click on one of the applications you can see some of the controls you have for each application.
+
+    ![](images/image20.png)
+
+### **STEP 7**: Cleanup
+
+- We can now remove these application as they will not be used throughout the rest of the lab.  You can either delete the application using Apps Manager or CLI.  Below is the command to remove via the CLI.
+
+```
+cf delete node
+```
+![](images/image21.png)
+
+- Repeat to delete the php, python, and ruby applications.
+
+### **STEP 8**: Push the articulate application:
+
+- We will now deploy a Java Spring application call ***articulate*** that will be used for the remainder of the lab. The ***--no-start*** argument allows you to stage the application. 
+
+```
+cd ~/gcp-pcf-workshop/pcf-developer-workshop/articulate/
+cf push articulate -p ./articulate-0.2.jar -m 768M --random-route --no-start
+``` 
+![](images/image22.png)
+
+- Now let's start the application. 
+
+```
+cf start articulate
+```
+![](images/image23.png)
+
+- Notice that the state is ***started***. Open a new browser tab and view the articulate application using the route assigned. Read about
+our demo application.
+
+    ![](images/image24.png)
+
+
+
+
 
 
 
