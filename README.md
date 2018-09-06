@@ -211,7 +211,7 @@ cf delete node
 
 - Repeat to delete the php, python, and ruby applications.
 
-### **STEP 8**: Push the articulate application:
+### **STEP 8**: Push the articulate application
 
 - We will now deploy a Java Spring application call ***articulate*** that will be used for the remainder of the lab. The ***--no-start*** argument allows you to stage the application. 
 
@@ -232,6 +232,78 @@ cf start articulate
 our demo application.
 
     ![](images/image24.png)
+
+## Logging
+
+### **STEP 9**: Tail the Logs
+
+- Go to the App Manager in your browser, open the articulate application and view the logs in the Logs tab. On the top-right there is an icon with a "Go" arrow in (which pops up tail logs when you mouse over it - see below). Click to start tailing mode. Once log-tailing is enabled the "Go" arrow changes to a
+
+    ![](images/image25.png)
+    ![](images/image26.png)
+
+- To view logs via CLI issue the following command:
+
+```
+cf logs articulate --recent
+```
+![](images/image27.png)
+
+## Scale and High Availability
+
+Pivotal Cloud Foundry has 4 levels of HA (High Availability) that keep your applications and the underlying platform running. In this section, we will demonstrate one of them. Failed application instances will be recovered.
+
+### **STEP 10**: Scale the App
+
+- In a Cloud Shell, scale the articulate application to 2 instances.
+
+```
+cf scale articulate -i 2
+```
+![](images/image28.png)
+
+- Execute the following command to see state of the application
+
+```
+cf app articulate
+```
+![](images/image29.png)
+
+- Back on the browser, click ***Scale & HA*** in the articulate application. Click ***Refresh*** button and wath the ***Instance Index*** change.
+
+    ![](images/image30.png)
+
+### **STEP 11**: High Availability
+
+- Press the Kill button
+
+    ![](images/image31.png)
+
+- Back in the Cloud Shell execute the following command. If you catch it fast enought you will see that the killed instance was restarted. A new, healthy app instance has been automatically provisioned to replace the failing one.
+
+```
+cf app articulate
+```
+![](images/image32.png)
+
+- Execute the following command to view which instance was killed.
+
+```
+cf events articulate
+```
+![](images/image33.png)
+
+- Scale articulate back to our original settings.
+
+```
+cf scale articulate -i 1
+cf app articulate
+```
+![](images/image34.png)
+
+
+
+
 
 
 
