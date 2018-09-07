@@ -500,7 +500,114 @@ For more information you can access Pivotal Documentation at [here](https://docs
 cf restart articulate
 ```
 
+## Blue Green Deployment
 
+So, you’ve pushed an app, and now it’s time to deploy a new version. Blue-green deployments are a technique for deploying updates with zero downtime.
+
+Cloudfoundry allows developers to manage everything about their application: from deployment to the management of routes to an application. It’s thanks to this self-service philosophy that the task of achieving zero-downtime deployments becomes easy.
+
+This lab will walk you through the steps to deploy a new version of an application with zero downtime and provides a way to visualize how traffic gets routed to the new application.
+
+### **STEP 15**: Stop attende-service
+
+- Stop the attendee-service app to free up memory in your org.
+
+```
+cf stop attendee-service
+```
+![](images/image59.png)
+
+### **STEP 16**: Generate Traffic
+
+- Browse to the articulate Blue-Green page.
+
+    ![](images/image60.png)
+
+- Let’s assume that the deployed application is version 1. Let’s generate some traffic. Press the ***Start** button. Leave this open as a dedicated tab in your browser. We will come back to this later.
+
+- Observe our existing application handling all the web requests.
+
+    ![](images/image61.png)
+
+- Record the subdomain (host) for the articulate application. This is our production route. You will use this in the next step.
+
+```
+cf routes
+```
+![](images/image62.png)
+
+### **STEP 17**: Deploy new version of application
+
+- Now let’s push the next version of articulate.
+
+```
+cd ~/gcp-pcf-workshop/pcf-developer-workshop/articulate/
+cf push articulate-v2 -p ./articulate-0.2.jar -m 768M -n {{articulate_hostname_temp}} --no-start
+```
+![](images/image63.png)
+
+- Start the new version of the articulate-v2 app.
+
+```
+cf start articulate-v2
+```
+![](images/image64.png)
+
+- Now we have two versions of our app deployed. Open a new tab and view version 2 of articulate in your browser. Take note of the application name.
+
+    ![](images/image65.png)
+
+### **STEP 18**: Route traffic to new version
+
+- Let’s assume we are ready to start directing production traffic to version 2. We need to map our production route to articulate-v2.
+
+```
+cf map-route articulate-v2 apps.pcf.<yourdomain> --hostname <articulate_hostname>
+```
+![](images/image66.png)
+
+- Return to browser tab where you started the load. You should see that it is starting to send requests to version 2.
+
+    ![](images/image67.png)
+
+- Move all traffic to version 2. Remove the production route from the articulate application.
+
+```
+cf unmap-route articulate apps.pcf.<yourdomain> --hostname <articulate_hostname>
+```
+![](images/image68.png)
+
+- If you Reset the load generator, you will see all the traffic goes to articulate-v2.
+
+    ![](images/image69.png)
+
+- Remove the temp route from the articulate-v2 application.
+
+```
+cf unmap-route articulate-v2 apps.pcf.<yourdomain> --hostname <articulate_hostname>
+```
+![](images/image70.png)
+
+- ***Congratulations!*** You performed a blue-green deployment.
+
+- Let’s reset our environment. Delete the articulate application.
+
+```
+cf delete articulate
+```
+
+- Rename articulate-v2 to articulate.
+
+```
+cf rename articulate-v2 articulate
+```
+
+- Restart articulate.
+
+```
+cf restart articulate
+```
+![](images/image71.png)
 
 
 
