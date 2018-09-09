@@ -26,7 +26,7 @@ This workshop will walk you through the process of deploying and monitoring an a
 ### **STEP 1**: Open Cloud Shell
 - From any browser, go to the URL to access Google Cloud Console:
 
-   `https://console.cloud.google.com/`
+   <https://console.cloud.google.com/>
 
 - After you login to your GCP account click on Cloud Shell in the upper right hand corner.
 
@@ -39,7 +39,7 @@ This workshop will walk you through the process of deploying and monitoring an a
 ### **STEP 2**: Install PCF on GCP
 - Open a new tab and go the following URL:
 
-   `https://github.com/cf-platform-eng/gcp-pcf-quickstart`
+   <https://github.com/cf-platform-eng/gcp-pcf-quickstart>
 
 - Follow the instruction for prerequisites, setup DNS and Deploy PCF
 
@@ -49,9 +49,11 @@ This workshop will walk you through the process of deploying and monitoring an a
 
 - From the PCF GCP Quickstart directory run the following command to get login information for Ops Manager:
 
-    ```./util/env_info.sh opsman```
+```
+./util/env_info.sh opsman
+```
 
-    ![](images/image3.png)
+![](images/image3.png)
 
 - From any browser, open a new tab and go to the URL to access Pivotal Ops Manager.  Use the username and password returned from the command above to login. 
 
@@ -59,9 +61,11 @@ This workshop will walk you through the process of deploying and monitoring an a
 
 - From the PCF GCP Quickstart directory run the following command to get login information for Apps Manager:
 
-    ```./util/env_info.sh cf```
+```
+./util/env_info.sh cf
+```
 
-    ![](images/image5.png)
+![](images/image5.png)
 
 - From any browser, open a new tab and go to the URL:
 
@@ -148,7 +152,7 @@ cf push node --random-route -m 128M
 ![](images/image11.png)
 ![](images/image12.png)
 
-- We can new use the ***cf apps** command to view all the deployed applications:
+- We can new use the ***cf apps*** command to view all the deployed applications:
 
 ```
 cf apps
@@ -171,7 +175,7 @@ cf push php --random-route -m 128M
 ![](images/image15.png)
 ![](images/image16.png)
 
-- We can new use the ***cf apps** command to view all the deployed applications:
+- We can new use the ***cf apps*** command to view all the deployed applications:
 
 ```
 cf apps
@@ -185,18 +189,18 @@ curl <your php application url>
 ```
 ![](images/image18.png)
 
-- Repeat these steps for the python and ruby applications.
+- Repeat these steps for the ***python*** and ***ruby*** applications.
 
 You just deployed four applications each based on a different
 language and runtime. Pivotal Cloud Foundry is a polyglot
 platform, meaning it supports multiple languages and does so in
 a pluggable way (via buildpacks)!
 
-- Switch over to you browser and let refresh the Apps Manger page. You may have to login again. On the left hand side select the ***demo*** ORG and then select the ***dev** SPACE. You should now see all 4 application.
+- Switch over to you browser and let refresh the Apps Manger page. You may have to login again. On the left hand side select the ***demo*** ORG and then select the ***dev*** SPACE. You should now see all 4 application.
 
     ![](images/image19.png)
 
-- Apps Manager give you a GUI that allows you to manage all your deployments the same way you would via the CF CLI. Click around to get familiar with the Apps Manager.  If you click on one of the applications you can see some of the controls you have for each application.
+- Apps Manager gives you a GUI that allows you to manage all your deployments the same way you would via the CF CLI. Click around to get familiar with the Apps Manager.  If you click on one of the applications you can see some of the controls you have for each application.
 
     ![](images/image20.png)
 
@@ -377,6 +381,10 @@ cf service attendee-mysql
 
     ![](images/image44.png)
 
+- To make things easy for the lab we will create a network that allows access to the database from the public internet. Click ***Add network*** and add a new with ***CIDR*** 0.0.0.0/0. Click ***Save***
+
+    ![](images/image46.png)
+
 ### **STEP 14**: Bind Service
 
 - Now that we have a running database we need to bind the service to the application.
@@ -385,10 +393,6 @@ cf service attendee-mysql
 cf bind-service attendee-service attendee-mysql -c '{"role":"cloudsql.admin"}'
 ```
 ![](images/image45.png)
-
-- To make things easy for the lab we will create a network that allows access to the database from the public internet. Click ***Add network*** and add a new with ***CIDR*** 0.0.0.0/0. Click ***Save***
-
-    ![](images/image46.png)
 
 - Restart the application
 
@@ -471,7 +475,7 @@ For more information you can access Pivotal Documentation at [here](https://docs
 
 - Navigate to the Stackdriver Log Viewer for your GCP Project
 
-- Select the ***Global*** resource and click on the ***Play*** button to see the logs streaming from your PCF deployment. 
+- Click on the ***Play*** button to see the logs streaming from your PCF deployment. 
 
     ![](images/image55.png)
 
@@ -609,5 +613,81 @@ cf restart articulate
 ```
 ![](images/image71.png)
 
+## Application Autoscaler
+
+So, you can deploy your app, you can scale it. But what if we wish to automate scaling an application up and down during periods of higher and subsequently lower traffic. PCF allows us to automate scaling via the marketplace service named the App Autoscaler.
+
+- To learn more read the documentation about App [Autoscaling](https://docs.pivotal.io/pivotalcf/2-1/appsman-services/autoscaler/using-autoscaler.html).
+
+### **STEP 19**: Setup App Autoscaling
+
+- Create a autoscaler service instance.
+
+```
+cf create-service app-autoscaler standard autoscaler
+```
+![](images/image72.png)
+
+- Bind the service to articulate.
+
+```
+cf bind-service articulate autoscaler
+```
+
+- Restart the application.
+
+```
+cf restart articulate
+```
+![](images/image73.png)
+
+- Go to Apps Manager and click on services.
+
+- Navigate to the Overview tab.
+
+- Click the Autoscaling tab.
+
+    ![](images/image74.png)
+
+- Click on the ***autoscaler*** service. Click on ***Settings*** then click ***Manage***
+
+    ![](images/image75.png)
 
 
+- Click ***edit*** and set Minimum Instance Limit to ***2*** and Maximum Instance Limit to ***5***. Click ***Save***
+
+    ![](images/image76.png)
+
+- Back on the Apps Manager click on the ***articulate*** application. On the Overview tab click ***Autoscaling***
+
+***Note:*** Notice that the number of instances changes to 2 to reflect the minimum intance limit.
+
+![](images/image77.png)
+
+- To cleanup, Unbind the autoscaler service instance.
+
+```
+cf unbind-service articulate autoscaler
+```
+
+- Delete the autoscaler service instance.
+
+```
+cf delete-service autoscaler
+```
+
+- Scale articulate back to original settings.
+
+```
+cf scale articulate -i 1
+```
+![](images/image78.png)
+
+- Restart articulate.
+
+```
+cf restart articulate
+```
+![](images/image79.png)
+
+- ***You have completed workshop!!!***
