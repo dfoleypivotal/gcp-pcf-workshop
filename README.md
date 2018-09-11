@@ -8,20 +8,21 @@ This workshop will walk you through the process of deploying and monitoring an a
 ***To log issues***, click here to go to the [github](https://github.com/dfoleypivotal/gcp-pcf-workshop/issues) repository issue submission form.
 
 ## Objectives
-- Install PCF on GCP using Quickstart
-- Deploy an Application to PCF
-- Understand how to Monitoring and Logging works in PCF
-- Scale the number of instances of your application
-- Understand High Availability capabilites of PCF platform
-- Consume GCP Services from PCF application
-- View PCF logs with GCP Stackdriver
-- Understand how to do a Blue Green Deployment
-- Setup Application Autoscaler
+- [Install PCF on GCP using Quickstart](#install)
+- [Deploy an Application to PCF](#pushapp)
+- [Understand how to Monitoring and Logging works in PCF](#logging)
+- [Scale the number of instances of your application](#ha)
+- [Understand High Availability capabilites of PCF platform](#ha)
+- [Consume GCP Services from PCF application](#services)
+- [View PCF logs with GCP Stackdriver](#stackdriver)
+- [Understand how to do a Blue Green Deployment](#bluegreen)
+- [Setup Application Autoscaler](#autoscaler)
 
 ## Required Artifacts
 - The following lab requires an Google Cloud Platform account.
 
-## Create PCF platform on GCP using Quickstart.
+<a id="install"></a>
+## Create PCF platform on GCP using Quickstart. 
 
 ### **STEP 1**: Open Cloud Shell
 - From any browser, go to the URL to access Google Cloud Console:
@@ -113,7 +114,8 @@ cf target -o demo -s dev
 
 - We are now ready to start deploying applications to our platform.
 
-## Pushing Apps
+<a id="pushapp"></a>
+## Pushing Apps 
 
 ### **STEP 5**: Download Lab Resource
 
@@ -237,6 +239,7 @@ our demo application.
 
     ![](images/image24.png)
 
+<a id="logging"></a>
 ## Logging
 
 ### **STEP 9**: Tail the Logs
@@ -253,6 +256,7 @@ cf logs articulate --recent
 ```
 ![](images/image27.png)
 
+<a id="ha"></a>
 ## Scale and High Availability
 
 Pivotal Cloud Foundry has 4 levels of HA (High Availability) that keep your applications and the underlying platform running. In this section, we will demonstrate one of them. Failed application instances will be recovered.
@@ -305,6 +309,7 @@ cf app articulate
 ```
 ![](images/image34.png)
 
+<a id="services"></a>
 ## Services
 
 Up until now, we’ve focused on the deployment of applications. But as we know, applications often use backing services: databases, message brokers, and other applications' services (to name a few).
@@ -455,6 +460,7 @@ cf env articulate
 
     ![](images/image54.png)
 
+<a id="stackdriver"></a>
 ## Log Drain
 
 Cloud Foundry’s loggregator subsystem routes application’s log streams out of the containers from which they emanate and makes them accessible via the cf logs command. But what if you needed to maintain a month’s worth of logs, and wanted to leverage third party tools or services for log analysis? Cloudfoundry provides the capability to drain application logs to some destination, whether it be an internal enterprise system or a third-party service.
@@ -503,7 +509,7 @@ For more information you can access Pivotal Documentation at [here](https://docs
 ```
 cf restart articulate
 ```
-
+<a id="bluegreen"></a>
 ## Blue Green Deployment
 
 So, you’ve pushed an app, and now it’s time to deploy a new version. Blue-green deployments are a technique for deploying updates with zero downtime.
@@ -613,7 +619,8 @@ cf restart articulate
 ```
 ![](images/image71.png)
 
-## Application Autoscaler
+<a id="autoscaler"></a>
+## Application Autoscaler 
 
 So, you can deploy your app, you can scale it. But what if we wish to automate scaling an application up and down during periods of higher and subsequently lower traffic. PCF allows us to automate scaling via the marketplace service named the App Autoscaler.
 
