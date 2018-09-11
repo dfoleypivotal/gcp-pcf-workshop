@@ -41,7 +41,7 @@ This workshop will walk you through the process of deploying and monitoring an a
 
    <https://github.com/cf-platform-eng/gcp-pcf-quickstart>
 
-- Follow the instruction for prerequisites, setup DNS and Deploy PCF
+- Follow the instruction for ***prerequisites***, ***setup DNS*** and ***Deploy PCF***
 
     ***Note:*** Throughout the document we will reference *`<yourdomain>`* as the DNS entry. Document will also assume that Cloud DNS was setup using *`pcf.<yourdomain>`*.
 
