@@ -20,6 +20,7 @@ This workshop will walk you through the process of deploying and monitoring an a
 
 ## Required Artifacts
 - The following lab requires an Google Cloud Platform account.
+- A registered domain name is required to deploy PCF.
 
 <a id="install"></a>
 ## Create PCF platform on GCP using Quickstart. 
@@ -46,7 +47,13 @@ This workshop will walk you through the process of deploying and monitoring an a
 
     ***Note:*** Throughout the document we will reference *`<yourdomain>`* as the DNS entry. Document will also assume that Cloud DNS was setup using *`pcf.<yourdomain>`*.
 
+- Once the deployment completes you can move to ***STEP 3***
+
+    ![](images/image80.png)
+
 ### **STEP 3**: Login to Pivotal Cloud Foundry
+
+- ***Ops Manager*** for Pivotal Cloud Foundry (PCF) provides a set of APIs and a graphical interface to manage the deployment and upgrade of PCF components. Use Ops Manager to administer Elastic Runtime, data services, and partner products.
 
 - From the PCF GCP Quickstart directory run the following command to get login information for Ops Manager:
 
@@ -59,6 +66,8 @@ This workshop will walk you through the process of deploying and monitoring an a
 - From any browser, open a new tab and go to the URL to access Pivotal Ops Manager.  Use the username and password returned from the command above to login. 
 
     ![](images/image4.png)
+
+- ***Apps Manager*** is a web-based tool for managing Pivotal Application Service (PAS) organizations, spaces, applications, services, and users.
 
 - From the PCF GCP Quickstart directory run the following command to get login information for Apps Manager:
 
@@ -116,6 +125,16 @@ cf target -o demo -s dev
 
 <a id="pushapp"></a>
 ## Pushing Apps 
+
+You deploy an app to Cloud Foundry by running a cf push command from the Cloud Foundry Command Line Interface (cf CLI). Between the time that you run cf push and the time that the app is available, Cloud Foundry performs the following tasks:
+
+- Uploads and stores app files
+- Examines and stores app metadata
+- Creates a “droplet” (the Cloud Foundry unit of execution) for the app
+- Selects an appropriate Diego cell to run the droplet
+- Starts the app
+
+For more information about the lifecycle of an app, see the [Application Container Lifecycle](https://docs.run.pivotal.io/devguide/deploy-apps/app-lifecycle.html) topic.
 
 ### **STEP 5**: Download Lab Resource
 
@@ -215,7 +234,7 @@ cf delete node
 ```
 ![](images/image21.png)
 
-- Repeat to delete the php, python, and ruby applications.
+- Repeat to delete the ***php***, ***python***, and ***ruby*** applications.
 
 ### **STEP 8**: Push the articulate application
 
@@ -242,6 +261,8 @@ our demo application.
 <a id="logging"></a>
 ## Logging
 
+***Loggregator***, the Cloud Foundry component responsible for logging, provides a stream of log output from your app and from Cloud Foundry system components that interact with your app during updates and execution.
+
 ### **STEP 9**: Tail the Logs
 
 - Go to the App Manager in your browser, open the articulate application and view the logs in the Logs tab. On the top-right there is an icon with a "Go" arrow in (which pops up tail logs when you mouse over it - see below). Click to start tailing mode. Once log-tailing is enabled the "Go" arrow changes to a
@@ -259,7 +280,9 @@ cf logs articulate --recent
 <a id="ha"></a>
 ## Scale and High Availability
 
-Pivotal Cloud Foundry has 4 levels of HA (High Availability) that keep your applications and the underlying platform running. In this section, we will demonstrate one of them. Failed application instances will be recovered.
+Pivotal Cloud Foundry has 4 levels of HA (High Availability) that keep your applications and the underlying platform running. To learn more please visit Pivotal [documentation](https://docs.pivotal.io/pivotalcf/1-12/concepts/high-availability.html)
+
+In this section, we will demonstrate one of them. Failed application instances will be recovered.
 
 ### **STEP 10**: Scale the App
 
@@ -378,17 +401,17 @@ cf service attendee-mysql
 
     ![](images/image42.png)
 
-- Since we are not created a client certificate we will want to allow unsecured connections to the database.  Back on the GCP Console click the newly create database and click on the ***connections*** page.
+- Back on the GCP Console click the newly create database and click on the ***connections*** page.
 
     ![](images/image43.png)
-
-- Scroll down and click ***Allow unsecured connection***
-
-    ![](images/image44.png)
 
 - To make things easy for the lab we will create a network that allows access to the database from the public internet. Click ***Add network*** and add a new with ***CIDR*** 0.0.0.0/0. Click ***Save***
 
     ![](images/image46.png)
+
+- Since we did not created a client certificate we will want to allow unsecured connections to the database. Scroll down and click ***Allow unsecured connection***
+
+    ![](images/image44.png)
 
 ### **STEP 14**: Bind Service
 
@@ -445,7 +468,7 @@ cf restart articulate
 ```
 ![](images/image51.png)
 
-- Refresh the articulate Services page. You can now see the attendee-service listed under Services.
+- Refresh the articulate Services page. You can now see the attendee-service listed under ***Services***.
 
     ![](images/image52.png)
 
@@ -533,7 +556,7 @@ cf stop attendee-service
 
     ![](images/image60.png)
 
-- Let’s assume that the deployed application is version 1. Let’s generate some traffic. Press the ***Start** button. Leave this open as a dedicated tab in your browser. We will come back to this later.
+- Let’s assume that the deployed application is version 1. Let’s generate some traffic. Press the ***Start*** button. Leave this open as a dedicated tab in your browser. We will come back to this later.
 
 - Observe our existing application handling all the web requests.
 
@@ -667,7 +690,7 @@ cf restart articulate
 
 - Back on the Apps Manager click on the ***articulate*** application. On the Overview tab click ***Autoscaling***
 
-***Note:*** Notice that the number of instances changes to 2 to reflect the minimum intance limit.
+***Note:*** Notice that after a short bit of time, the number of instances changes to 2 to reflect the minimum intance limit.
 
 ![](images/image77.png)
 
