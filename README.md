@@ -3,7 +3,7 @@ Update: September 5, 2018
 
 ## Introduction
 
-This workshop will walk you through the process of deploying and monitoring an application on **Pivotal Cloud Foundry (PCF)**. PCF will be running on **Google Cloud Platform (GCP)** and you will get exposed how PCF consumes GCP services.
+This workshop will walk you through the process of deploying and monitoring an application on **Pivotal Cloud Foundry (PCF)**. PCF will be running on **Google Cloud Platform (GCP)** and you will get exposed to how PCF consumes GCP services.
 
 ***To log issues***, click here to go to the [github](https://github.com/dfoleypivotal/gcp-pcf-workshop/issues) repository issue submission form.
 
@@ -12,14 +12,14 @@ This workshop will walk you through the process of deploying and monitoring an a
 - [Deploy an Application to PCF](#pushapp)
 - [Understand how to Monitoring and Logging works in PCF](#logging)
 - [Scale the number of instances of your application](#ha)
-- [Understand High Availability capabilites of PCF platform](#ha)
+- [Understand High Availability capabilities of PCF platform](#ha)
 - [Consume GCP Services from PCF application](#services)
 - [View PCF logs with GCP Stackdriver](#stackdriver)
 - [Understand how to do a Blue Green Deployment](#bluegreen)
 - [Setup Application Autoscaler](#autoscaler)
 
 ## Required Artifacts
-- The following lab requires an Google Cloud Platform account.
+- The following lab requires a Google Cloud Platform account.
 - A registered domain name is required to deploy PCF.
 
 <a id="install"></a>
@@ -520,7 +520,7 @@ For more information you can access Pivotal Documentation at [here](https://docs
 
 - Enter the following information and click ***Save***
 
-   **Chart Titel:** `CPU Usage`
+   **Chart Title:** `CPU Usage`
 
    **Resource Type and metric:** `custom/firehose/rep.cpuPercentage`
 
@@ -537,11 +537,11 @@ cf restart articulate
 
 So, you’ve pushed an app, and now it’s time to deploy a new version. Blue-green deployments are a technique for deploying updates with zero downtime.
 
-Cloudfoundry allows developers to manage everything about their application: from deployment to the management of routes to an application. It’s thanks to this self-service philosophy that the task of achieving zero-downtime deployments becomes easy.
+Cloud Foundry allows developers to manage everything about their application: from deployment to the management of routes to an application. It’s thanks to this self-service philosophy that the task of achieving zero-downtime deployments becomes easy.
 
 This lab will walk you through the steps to deploy a new version of an application with zero downtime and provides a way to visualize how traffic gets routed to the new application.
 
-### **STEP 15**: Stop attende-service
+### **STEP 15**: Stop attendee-service
 
 - Stop the attendee-service app to free up memory in your org.
 
