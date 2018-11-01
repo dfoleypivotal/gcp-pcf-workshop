@@ -14,7 +14,6 @@ This workshop will walk you through the process of deploying and monitoring an a
 - [Scale the number of instances of your application](#ha)
 - [Understand High Availability capabilities of PCF platform](#ha)
 - [Consume GCP Services from PCF application](#services)
-- [View PCF logs with GCP Stackdriver](#stackdriver)
 - [Understand how to do a Blue Green Deployment](#bluegreen)
 - [Setup Application Autoscaler](#autoscaler)
 - [PAS Administrator Functiuons](#pasadmin)
@@ -266,7 +265,7 @@ our demo application.
 
 ### **STEP 9**: Tail the Logs
 
-- Go to the App Manager in your browser, open the articulate application and view the logs in the Logs tab. On the top-right there is an icon with a "Go" arrow in (which pops up tail logs when you mouse over it - see below). Click to start tailing mode. Once log-tailing is enabled the "Go" arrow changes to a
+- Go to the **App Manager** in your browser, open the **articulate** application and view the logs in the Logs tab. On the top-right there is an icon with a "Go" arrow in (which pops up tail logs when you mouse over it - see below). Click to start tailing mode. Once log-tailing is enabled the "Go" arrow changes to a
 
     ![](images/image25.png)
     ![](images/image26.png)
@@ -278,7 +277,12 @@ cf logs articulate --recent
 ```
 ![](images/image27.png)
 
-<a id="stackdriver"></a>
+- If you are not seeing any recent logs due to a time delay try the following command then re-execute the command above:
+
+```
+cf restart articulate
+```
+
 ## Log Drain
 
 Cloud Foundry’s loggregator subsystem routes application’s log streams out of the containers from which they emanate and makes them accessible via the cf logs command. But what if you needed to maintain a month’s worth of logs, and wanted to leverage third party tools or services for log analysis? Cloudfoundry provides the capability to drain application logs to some destination, whether it be an internal enterprise system or a third-party service.
