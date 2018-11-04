@@ -13,10 +13,10 @@ This workshop will walk you through the process of deploying and monitoring an a
 - [Understand how to Monitoring and Logging works in PCF](#logging)
 - [Scale the number of instances of your application](#ha)
 - [Understand High Availability capabilities of PCF platform](#ha)
+- [Setup Application Autoscaler](#autoscaler)
 - [Consume GCP Services from PCF application](#services)
 - [Understand how to do a Blue Green Deployment](#bluegreen)
-- [Setup Application Autoscaler](#autoscaler)
-- [PAS Administrator Functiuons](#pasadmin)
+- [PAS Administrator Functions](#pasadmin)
 
 ## Required Artifacts
 - The following lab requires a Google Cloud Platform account.
@@ -387,6 +387,82 @@ cf app articulate
 ```
 ![](images/image34.png)
 
+<a id="autoscaler"></a>
+## Application Autoscaler 
+
+So, you can deploy your app, you can scale it. But what if we wish to automate scaling an application up and down during periods of higher and subsequently lower traffic. PCF allows us to automate scaling via the marketplace service named the App Autoscaler.
+
+- To learn more read the documentation about App [Autoscaling](https://docs.pivotal.io/pivotalcf/2-1/appsman-services/autoscaler/using-autoscaler.html).
+
+### **STEP 14**: Setup App Autoscaling
+
+- Create a autoscaler service instance.
+
+```
+cf create-service app-autoscaler standard autoscaler
+```
+![](images/image72.png)
+
+- Bind the service to articulate.
+
+```
+cf bind-service articulate autoscaler
+```
+
+- Restart the application.
+
+```
+cf restart articulate
+```
+![](images/image73.png)
+
+- Go to Apps Manager and click on ***Services***.
+
+    ![](images/image74.png)
+
+- Click on the ***autoscaler*** service. Click on ***Settings*** then click ***Manage***
+
+    ![](images/image75.png)
+
+
+- Click ***edit*** and set Minimum Instance Limit to ***2*** and Maximum Instance Limit to ***5***. Click ***Save***
+
+    ![](images/image76.png)
+
+- Back on the Apps Manager click on the ***articulate*** application. On the Overview tab click ***Autoscaling***
+
+    ![](images/image77.png)
+
+***Note:*** Notice that after a short bit of time, the number of instances changes to 2 to reflect the minimum intance limit.
+
+![](images/image81.png)
+
+- To cleanup, Unbind the autoscaler service instance.
+
+```
+cf unbind-service articulate autoscaler
+```
+
+- Delete the autoscaler service instance.
+
+```
+cf delete-service autoscaler
+```
+
+- Scale articulate back to original settings.
+
+```
+cf scale articulate -i 1
+```
+![](images/image78.png)
+
+- Restart articulate.
+
+```
+cf restart articulate
+```
+![](images/image79.png)
+
 <a id="services"></a>
 ## Services
 
@@ -398,7 +474,7 @@ In the process, you’ll learn new cf commands: create-service, create-user-prov
 
 articulate exposes functionality to add attendees on the Services page. However, articulate doesn’t do this alone. It makes REST calls to the attendee-service application. To learn more about services, let’s provision the attendee-service application.
 
-### **STEP 14**: Push the attendee-service application
+### **STEP 15**: Push the attendee-service application
 
 - The attendee-service JAR, attendee-service-0.1.jar is in your lab files under its own directory.
 
@@ -414,7 +490,7 @@ cf push attendee-service -p ./attendee-service-0.1.jar -m 768M --random-route
 
 ![](images/image36.png)
 
-### **STEP 15**: Create Service via GCP Service Broker
+### **STEP 16**: Create Service via GCP Service Broker
 
 PCF operators install the GCP Service Broker to expose select GCP services in the Marketplace. Developers can then provision GCP services by creating and managing service instances with the cf CLI.
 
@@ -456,7 +532,7 @@ cf service attendee-mysql
 
     ![](images/image42.png)
 
-### **STEP 16**: Enable access to Database
+### **STEP 17**: Enable access to Database
 
 - Back on the GCP Console click the newly create database and click on the **connections** page.
 
@@ -470,7 +546,7 @@ cf service attendee-mysql
 
     ![](images/image44.png)
 
-### **STEP 17**: Bind Service
+### **STEP 18**: Bind Service
 
 - Now that we have a running database we need to bind the service to the application.
 
@@ -494,7 +570,7 @@ cf restart attendee-service
 should be able to submit http POST to the same attendees endpoint with a body containing the JSON representation of the Attendee model type to create such a record. This can be
 done programmatically, or via REST client tools such as Postman or command-line tools such as curl or httpie.
 
-### **STEP 18**: Add a User-Provided Service Instance
+### **STEP 19**: Add a User-Provided Service Instance
 
 In the enterprise, not all services will be provisioned by Pivotal Cloud Foundry. For example, consider your Oracle RAC cluster. How can we connect our applications running on Pivotal Cloud Foundry to these external systems? Additionally, how can we easily connect applications together running on the platform? articulate’s default configuration for the attendee-service
 uri is http://localhost:8181/ . The subsequent steps will allow you to override the default configuration with your own.
@@ -540,12 +616,12 @@ cf env articulate
 
     ![](images/image54.png)
 
-### **STEP 18**: GCP Service Broker Sample Applications
+### **STEP 20**: GCP Service Broker Sample Applications
 
 Google Engineering has create a few sample applications that will highlight the use of a few GCP service. To learn more about GCP Service Broker let's walk through the deployment of these applications.
 
 - Awwvision
-- Link Shortner
+- Link Shortener
 - Store Locator
 
 **Note:** For these sample application you will follow the instructions created in the source repository.
@@ -585,7 +661,7 @@ Cloud Foundry allows developers to manage everything about their application: fr
 
 This lab will walk you through the steps to deploy a new version of an application with zero downtime and provides a way to visualize how traffic gets routed to the new application.
 
-### **STEP 18**: Stop attendee-service
+### **STEP 21**: Stop attendee-service
 
 - Stop the attendee-service app to free up memory in your org.
 
@@ -594,7 +670,7 @@ cf stop attendee-service
 ```
 ![](images/image59.png)
 
-### **STEP 19**: Generate Traffic
+### **STEP 22**: Generate Traffic
 
 - Browse to the articulate Blue-Green page.
 
@@ -613,7 +689,7 @@ cf routes
 ```
 ![](images/image62.png)
 
-### **STEP 20**: Deploy new version of application
+### **STEP 23**: Deploy new version of application
 
 - Now let’s push the next version of articulate.
 
@@ -634,7 +710,7 @@ cf start articulate-v2
 
     ![](images/image65.png)
 
-### **STEP 21**: Route traffic to new version
+### **STEP 24**: Route traffic to new version
 
 - Let’s assume we are ready to start directing production traffic to version 2. We need to map our production route to articulate-v2.
 
@@ -693,7 +769,7 @@ So, you can deploy your app, you can scale it. But what if we wish to automate s
 
 - To learn more read the documentation about App [Autoscaling](https://docs.pivotal.io/pivotalcf/2-1/appsman-services/autoscaler/using-autoscaler.html).
 
-### **STEP 22**: Setup App Autoscaling
+### **STEP 25**: Setup App Autoscaling
 
 - Create a autoscaler service instance.
 
@@ -780,7 +856,7 @@ This ongoing responsibility may include but is not limited to:
 
 In this section we will explore some of these administrator activities. To learn more read the [PAS Administrator Guide](https://docs.pivotal.io/pivotalcf/2-2/pas/index.html).
 
-### **STEP 23**: Setup App Autoscaling
+### **STEP 26**: Setup App Autoscaling
 
 
 
