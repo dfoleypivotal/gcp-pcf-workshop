@@ -456,19 +456,21 @@ cf service attendee-mysql
 
     ![](images/image42.png)
 
-- Back on the GCP Console click the newly create database and click on the ***connections*** page.
+### **STEP 16**: Enable access to Database
+
+- Back on the GCP Console click the newly create database and click on the **connections** page.
 
     ![](images/image43.png)
 
-- To make things easy for the lab we will create a network that allows access to the database from the public internet. Click ***Add network*** and add a new with ***CIDR*** 0.0.0.0/0. Click ***Save***
+- To make things easy for the lab we will create a network that allows access to the database from the public internet. Click **Add network** and add a new with **CIDR** 0.0.0.0/0. Click **Save**
 
     ![](images/image46.png)
 
-- Since we did not created a client certificate we will want to allow unsecured connections to the database. Scroll down and click ***Allow unsecured connection***
+- Since we did not created a client certificate we will want to allow unsecured connections to the database. Scroll down and click **Allow unsecured connection**
 
     ![](images/image44.png)
 
-### **STEP 16**: Bind Service
+### **STEP 17**: Bind Service
 
 - Now that we have a running database we need to bind the service to the application.
 
@@ -492,7 +494,7 @@ cf restart attendee-service
 should be able to submit http POST to the same attendees endpoint with a body containing the JSON representation of the Attendee model type to create such a record. This can be
 done programmatically, or via REST client tools such as Postman or command-line tools such as curl or httpie.
 
-### **STEP 17**: Add a User-Provided Service Instance
+### **STEP 18**: Add a User-Provided Service Instance
 
 In the enterprise, not all services will be provisioned by Pivotal Cloud Foundry. For example, consider your Oracle RAC cluster. How can we connect our applications running on Pivotal Cloud Foundry to these external systems? Additionally, how can we easily connect applications together running on the platform? articulate’s default configuration for the attendee-service
 uri is http://localhost:8181/ . The subsequent steps will allow you to override the default configuration with your own.
@@ -503,9 +505,9 @@ uri is http://localhost:8181/ . The subsequent steps will allow you to override 
 cf create-user-provided-service attendee-service -p uri
 ```
 
-***Note:*** This will create an interactive prompt. For the value of uri, enter your attendee-service application's base url:
+**Note:** This will create an interactive prompt. For the value of uri, enter your attendee-service application's base url:
 
-uri> https://{{attendees_app_uri}}/
+uri> ***http://{{attendees_app_uri}}/***
 
 ![](images/image49.png)
 
@@ -537,6 +539,42 @@ cf env articulate
 - Add some attendees.
 
     ![](images/image54.png)
+
+### **STEP 18**: GCP Service Broker Sample Applications
+
+Google Engineering has create a few sample applications that will highlight the use of a few GCP service. To learn more about GCP Service Broker let's walk through the deployment of these applications.
+
+- Awwvision
+- Link Shortner
+- Store Locator
+
+**Note:** For these sample application you will follow the instructions created in the source repository.
+
+- Start by cloning the repository into your Cloud Shell.
+
+```
+cd ~
+git clone https://github.com/GoogleCloudPlatform/service-broker-samples
+```
+
+![](images/image82.png)
+
+
+- First we will deploy the Awwvision application. Awwvision is a Spring Boot demo application that uses the Google Cloud Vision API to classify (label) images from Reddit's /r/aww subreddit, store the images and classifications in Google Cloud Storage, and display the labeled results in a web app. 
+
+```
+cd service-broker-samples/awwvision
+```
+
+![](images/image83.png)
+
+- Follow the instructions to deploy Awwvision [here](https://github.com/GoogleCloudPlatform/service-broker-samples/tree/master/awwvision)
+
+    ![](images/image84.png)
+    ![](images/image85.png)
+
+- If you have time you can also follow the instructions and deploy the **Link Shortner** and **Store Locator** applications
+
 
 <a id="bluegreen"></a>
 ## Blue Green Deployment
