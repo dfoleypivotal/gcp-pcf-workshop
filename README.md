@@ -43,21 +43,21 @@ This workshop will walk you through the process of deploying and monitoring an a
 
    <https://github.com/cf-platform-eng/gcp-pcf-quickstart>
 
-- Follow the instruction for ***prerequisites***, ***setup DNS*** and ***Deploy PCF***
+- Follow the instruction for **prerequisites**, **setup DNS** and **Deploy PCF**
 
-    ***Note:*** Throughout the document we will reference *`<yourdomain>`* as the DNS entry. Document will also assume that Cloud DNS was setup using *`pcf.<yourdomain>`*.
+    **Note:** Throughout the document we will reference *`<yourdomain>`* as the DNS entry. Document will also assume that Cloud DNS was setup using *`pcf.<yourdomain>`*.
 
-- Once the deployment completes you can move to ***STEP 3***
+- Once the deployment completes you can move to **STEP 3**
 
     ![](images/image80.png)
 
 ### **STEP 3**: Login to Pivotal Cloud Foundry
 
-- ***Ops Manager*** for Pivotal Cloud Foundry (PCF) provides a set of APIs and a graphical interface to manage the deployment and upgrade of PCF components. Use Ops Manager to administer Elastic Runtime, data services, and partner products.
+- **Ops Manager** for Pivotal Cloud Foundry (PCF) provides a set of APIs and a graphical interface to manage the deployment and upgrade of PCF components. Use Ops Manager to administer Elastic Runtime, data services, and partner products.
 
 - From the PCF GCP Quickstart directory run the following command to get login information for Ops Manager:
 
-```
+```bash
 ./util/env_info.sh opsman
 ```
 
@@ -67,11 +67,11 @@ This workshop will walk you through the process of deploying and monitoring an a
 
     ![](images/image4.png)
 
-- ***Apps Manager*** is a web-based tool for managing Pivotal Application Service (PAS) organizations, spaces, applications, services, and users.
+- **Apps Manager** is a web-based tool for managing Pivotal Application Service (PAS) organizations, spaces, applications, services, and users.
 
 - From the PCF GCP Quickstart directory run the following command to get login information for Apps Manager:
 
-```
+```bash
 ./util/env_info.sh cf
 ```
 
@@ -87,9 +87,9 @@ This workshop will walk you through the process of deploying and monitoring an a
 
 - Leave both Ops Manager and Apps Manager tabs open as we will be using them later in the lab.
 
-- Now we want to target out CLI at our newly created environment. From Cloud Shell run the following commands to target and login to CF CLI. For ***Space*** selection hit Enter as we will create a new org and space for application deployment.
+- Now we want to target out CLI at our newly created environment. From Cloud Shell run the following commands to target and login to CF CLI. For **Space** selection hit Enter as we will create a new org and space for application deployment.
 
-```
+```bash
 cf api https://api.sys.pcf.<yourdomian> --skip-ssl-validation
 cf login -u admin -p <password from above>
 ```
@@ -97,18 +97,18 @@ cf login -u admin -p <password from above>
 
 ## Orgs and Spaces
 
-An ***org*** is a development account that an individual or multiple collaborators can own and use. All collaborators access an org with user accounts. Collaborators in an org share a resource quota plan, applications, services availability, and custom domains.
+An **org** is a development account that an individual or multiple collaborators can own and use. All collaborators access an org with user accounts. Collaborators in an org share a resource quota plan, applications, services availability, and custom domains.
 
-Every application and service is scoped to a ***space***. An org can contain multiple spaces. A space provides users with access to a shared location for application development, deployment, and maintenance. Each space role applies only to a particular space.
+Every application and service is scoped to a **space**. An org can contain multiple spaces. A space provides users with access to a shared location for application development, deployment, and maintenance. Each space role applies only to a particular space.
 
 For more information you can access Pivotal Documentation at [here](https://docs.pivotal.io/pivotalcf/2-2/concepts/roles.html)
 
 
 ### **STEP 4**: Create Org and Space
 
-- We will now use the CLI to create a new Org and Space for deployment of our applications. We will create and Org call ***demo*** and them create a space in that Org call ***dev***.
+- We will now use the CLI to create a new Org and Space for deployment of our applications. We will create and Org call **demo** and them create a space in that Org call **dev**.
 
-```
+```bash
 cf create-org demo
 cf create-space dev -o demo
 ```
