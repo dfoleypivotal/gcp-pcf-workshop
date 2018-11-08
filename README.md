@@ -158,9 +158,6 @@ cd gcp-pcf-workshop/pcf-developer-workshop/demo-apps/node/
 
 - The Cloud Foundry push command assumes that the artifacts for your application are located in the current working directory.
 
-**Note:** node must be your current directory, not demo-apps. This
-is a common-mistake.
-
 - Now push the **node** application:
 
 ```bash
@@ -258,7 +255,7 @@ our demo application.
 <a id="logging"></a>
 ## Logging
 
-***Loggregator***, the Cloud Foundry component responsible for logging, provides a stream of log output from your app and from Cloud Foundry system components that interact with your app during updates and execution.
+**Loggregator**, the Cloud Foundry component responsible for logging, provides a stream of log output from your app and from Cloud Foundry system components that interact with your app during updates and execution.
 
 ### **STEP 9**: Tail the Logs
 
@@ -269,14 +266,15 @@ our demo application.
 
 - To view logs via CLI issue the following command:
 
-```
+```bash
 cf logs articulate --recent
 ```
+
 ![](images/image27.png)
 
 - If you are not seeing any recent logs due to a time delay try the following command then re-execute the command above:
 
-```
+```bash
 cf restart articulate
 ```
 
@@ -300,7 +298,7 @@ For more information you can access Pivotal Documentation at [here](https://docs
 
 - Navigate to the Stackdriver Log Viewer for your GCP Project
 
-- Click on the ***Play*** button to see the logs streaming from your PCF deployment. 
+- Click on the **Play** button to see the logs streaming from your PCF deployment. 
 
     ![](images/image55.png)
 
@@ -308,13 +306,13 @@ For more information you can access Pivotal Documentation at [here](https://docs
 
 - Navigate to the Stackdriver Monitoring Console for your GCP project.
 
-- Select ***Dashboards > Create Dashboard***
+- Select **Dashboards > Create Dashboard**
 
-- Click ***Add Chart***
+- Click **Add Chart**
 
     ![](images/image56.png)
 
-- Enter the following information and click ***Save***
+- Enter the following information and click **Save**
 
    **Chart Title:** `CPU Usage`
 
@@ -325,7 +323,7 @@ For more information you can access Pivotal Documentation at [here](https://docs
 
 - Monitor the logs as you execute different command.  Try the following and see what you see in the Log Viewer:
 
-```
+```bash
 cf restart articulate
 ```
 
@@ -340,19 +338,19 @@ In this section, we will demonstrate one of them. Failed application instances w
 
 - In a Cloud Shell, scale the articulate application to 2 instances.
 
-```
+```bash
 cf scale articulate -i 2
 ```
 ![](images/image28.png)
 
 - Execute the following command to see state of the application
 
-```
+```bash
 cf app articulate
 ```
 ![](images/image29.png)
 
-- Back on the browser, click ***Scale & HA*** in the articulate application. Click ***Refresh*** button and wath the ***Instance Index*** change.
+- Back on the browser, click **Scale & HA** in the articulate application. Click **Refresh** button and wath the **Instance Index** change.
 
     ![](images/image30.png)
 
@@ -364,21 +362,21 @@ cf app articulate
 
 - Back in the Cloud Shell execute the following command. If you catch it fast enought you will see that the killed instance was restarted. A new, healthy app instance has been automatically provisioned to replace the failing one.
 
-```
+```bash
 cf app articulate
 ```
 ![](images/image32.png)
 
 - Execute the following command to view which instance was killed.
 
-```
+```bash
 cf events articulate
 ```
 ![](images/image33.png)
 
 - Scale articulate back to our original settings.
 
-```
+```bash
 cf scale articulate -i 1
 cf app articulate
 ```
@@ -395,67 +393,67 @@ So, you can deploy your app, you can scale it. But what if we wish to automate s
 
 - Create a autoscaler service instance.
 
-```
+```bash
 cf create-service app-autoscaler standard autoscaler
 ```
 ![](images/image72.png)
 
 - Bind the service to articulate.
 
-```
+```bash
 cf bind-service articulate autoscaler
 ```
 
 - Restart the application.
 
-```
+```bash
 cf restart articulate
 ```
 ![](images/image73.png)
 
-- Go to Apps Manager and click on ***Services***.
+- Go to Apps Manager and click on **Services**.
 
     ![](images/image74.png)
 
-- Click on the ***autoscaler*** service. Click on ***Settings*** then click ***Manage***
+- Click on the **autoscaler** service. Click on **Settings** then click **Manage**
 
     ![](images/image75.png)
 
 
-- Click ***edit*** and set Minimum Instance Limit to ***2*** and Maximum Instance Limit to ***5***. Click ***Save***
+- Click **edit** and set Minimum Instance Limit to **2** and Maximum Instance Limit to **5**. Click **Save**
 
     ![](images/image76.png)
 
-- Back on the Apps Manager click on the ***articulate*** application. On the Overview tab click ***Autoscaling***
+- Back on the Apps Manager click on the **articulate** application. On the Overview tab click **Autoscaling**
 
     ![](images/image77.png)
 
-***Note:*** Notice that after a short bit of time, the number of instances changes to 2 to reflect the minimum intance limit.
+**Note:** Notice that after a short bit of time, the number of instances changes to 2 to reflect the minimum intance limit.
 
 ![](images/image81.png)
 
 - To cleanup, Unbind the autoscaler service instance.
 
-```
+```bash
 cf unbind-service articulate autoscaler
 ```
 
 - Delete the autoscaler service instance.
 
-```
+```bash
 cf delete-service autoscaler
 ```
 
 - Scale articulate back to original settings.
 
-```
+```bash
 cf scale articulate -i 1
 ```
 ![](images/image78.png)
 
 - Restart articulate.
 
-```
+```bash
 cf restart articulate
 ```
 ![](images/image79.png)
@@ -477,13 +475,13 @@ articulate exposes functionality to add attendees on the Services page. However,
 
 - Execute the following commands to push the attendee-service application.
 
-```
+```bash
 cd ~/gcp-pcf-workshop/pcf-developer-workshop/attendee-service/
 cf push attendee-service -p ./attendee-service-0.1.jar -m 768M --random-route
 ```
 ![](images/image35.png)
 
-***Note:*** When you push attendee-service it will fail because it references a MySql database which we have not created yet.
+**Note:** When you push attendee-service it will fail because it references a MySql database which we have not created yet.
 
 ![](images/image36.png)
 
@@ -495,28 +493,28 @@ Review the [documentation](https://docs.pivotal.io/partners/gcp-sb/index.html) f
 
 - Review what services are available in the marketplace
 
-```
+```bash
 cf marketplace
 ```
 ![](images/image37.png)
 
 - As you can see many of the GCP services are available. Lets see what plans are available for Cloud SQL.
 
-```
+```bash
 cf marketplace -s google-cloudsql-mysql
 ``` 
 ![](images/image38.png)
 
 - Create a Cloud SQL MySQL database from the marketplace.
 
-```
+```bash
 cf create-service google-cloudsql-mysql mysql-micro-dev attendee-mysql
 ```
 ![](images/image39.png)
 
 - You can monitory the progress with the following command.
 
-```
+```bash
 cf service attendee-mysql
 ```
 ![](images/image40.png)
@@ -547,14 +545,14 @@ cf service attendee-mysql
 
 - Now that we have a running database we need to bind the service to the application.
 
-```
+```bash
 cf bind-service attendee-service attendee-mysql -c '{"role":"cloudsql.admin"}'
 ```
 ![](images/image45.png)
 
 - Restart the application
 
-```
+```bash
 cf restart attendee-service
 ```
 ![](images/image47.png)
@@ -563,48 +561,45 @@ cf restart attendee-service
 
     ![](images/image48.png)
 
-- An http GET to the attendees endpoint will fetch all attendees in the database and display them in JSON format. This application implements a RESTful API. This means that you
-should be able to submit http POST to the same attendees endpoint with a body containing the JSON representation of the Attendee model type to create such a record. This can be
-done programmatically, or via REST client tools such as Postman or command-line tools such as curl or httpie.
+- An http GET to the attendees endpoint will fetch all attendees in the database and display them in JSON format. This application implements a RESTful API. This means that you should be able to submit http POST to the same attendees endpoint with a body containing the JSON representation of the Attendee model type to create such a record. This can be done programmatically, or via REST client tools such as Postman or command-line tools such as curl or httpie.
 
 ### **STEP 19**: Add a User-Provided Service Instance
 
-In the enterprise, not all services will be provisioned by Pivotal Cloud Foundry. For example, consider your Oracle RAC cluster. How can we connect our applications running on Pivotal Cloud Foundry to these external systems? Additionally, how can we easily connect applications together running on the platform? articulate’s default configuration for the attendee-service
-uri is http://localhost:8181/ . The subsequent steps will allow you to override the default configuration with your own.
+In the enterprise, not all services will be provisioned by Pivotal Cloud Foundry. For example, consider your Oracle RAC cluster. How can we connect our applications running on Pivotal Cloud Foundry to these external systems? Additionally, how can we easily connect applications together running on the platform? articulate’s default configuration for the attendee-service uri is http://localhost:8181/ . The subsequent steps will allow you to override the default configuration with your own.
 
 - Create a user-provided service instance. 
 
-```
+```bash
 cf create-user-provided-service attendee-service -p uri
 ```
 
 **Note:** This will create an interactive prompt. For the value of uri, enter your attendee-service application's base url:
 
-uri> ***http://{{attendees_app_uri}}/***
+uri> **http://{{attendees_app_uri}}/**
 
 ![](images/image49.png)
 
 - Bind articulate to the attendee-service user-provided service.
 
-```
+```bash
 cf bind-service articulate attendee-service
 ```
 ![](images/image50.png)
 
 - Restart the application.
 
-```
+```bash
 cf restart articulate
 ```
 ![](images/image51.png)
 
-- Refresh the articulate Services page. You can now see the attendee-service listed under ***Services***.
+- Refresh the articulate Services page. You can now see the attendee-service listed under **Services**.
 
     ![](images/image52.png)
 
 - Review the environment.
 
-```
+```bash
 cf env articulate
 ```
 ![](images/image53.png)
@@ -625,7 +620,7 @@ Google Engineering has create a few sample applications that will highlight the 
 
 - Start by cloning the repository into your Cloud Shell.
 
-```
+```bash
 cd ~
 git clone https://github.com/GoogleCloudPlatform/service-broker-samples
 ```
@@ -635,7 +630,7 @@ git clone https://github.com/GoogleCloudPlatform/service-broker-samples
 
 - First we will deploy the Awwvision application. Awwvision is a Spring Boot demo application that uses the Google Cloud Vision API to classify (label) images from Reddit's /r/aww subreddit, store the images and classifications in Google Cloud Storage, and display the labeled results in a web app. 
 
-```
+```bash
 cd service-broker-samples/awwvision
 ```
 
@@ -646,8 +641,7 @@ cd service-broker-samples/awwvision
     ![](images/image84.png)
     ![](images/image85.png)
 
-- If you have time you can also follow the instructions and deploy the **Link Shortner** and **Store Locator** applications
-
+- If you have time you can also follow the instructions and deploy the **[Link Shortener](https://github.com/GoogleCloudPlatform/service-broker-samples/tree/master/link-shortener)** and **[Store Locator](https://github.com/GoogleCloudPlatform/service-broker-samples/tree/master/storelocator)** applications
 
 <a id="bluegreen"></a>
 ## Blue Green Deployment
@@ -662,7 +656,7 @@ This lab will walk you through the steps to deploy a new version of an applicati
 
 - Stop the attendee-service app to free up memory in your org.
 
-```
+```bash
 cf stop attendee-service
 ```
 ![](images/image59.png)
@@ -673,7 +667,7 @@ cf stop attendee-service
 
     ![](images/image60.png)
 
-- Let’s assume that the deployed application is version 1. Let’s generate some traffic. Press the ***Start*** button. Leave this open as a dedicated tab in your browser. We will come back to this later.
+- Let’s assume that the deployed application is version 1. Let’s generate some traffic. Press the **Start** button. Leave this open as a dedicated tab in your browser. We will come back to this later.
 
 - Observe our existing application handling all the web requests.
 
@@ -681,7 +675,7 @@ cf stop attendee-service
 
 - Record the subdomain (host) for the articulate application. This is our production route. You will use this in the next step.
 
-```
+```bash
 cf routes
 ```
 ![](images/image62.png)
@@ -690,7 +684,7 @@ cf routes
 
 - Now let’s push the next version of articulate.
 
-```
+```bash
 cd ~/gcp-pcf-workshop/pcf-developer-workshop/articulate/
 cf push articulate-v2 -p ./articulate-0.2.jar -m 768M -n {{articulate_hostname_temp}} --no-start
 ```
@@ -698,7 +692,7 @@ cf push articulate-v2 -p ./articulate-0.2.jar -m 768M -n {{articulate_hostname_t
 
 - Start the new version of the articulate-v2 app.
 
-```
+```bash
 cf start articulate-v2
 ```
 ![](images/image64.png)
@@ -711,7 +705,7 @@ cf start articulate-v2
 
 - Let’s assume we are ready to start directing production traffic to version 2. We need to map our production route to articulate-v2.
 
-```
+```bash
 cf map-route articulate-v2 apps.pcf.<yourdomain> --hostname <articulate_hostname>
 ```
 ![](images/image66.png)
@@ -722,7 +716,7 @@ cf map-route articulate-v2 apps.pcf.<yourdomain> --hostname <articulate_hostname
 
 - Move all traffic to version 2. Remove the production route from the articulate application.
 
-```
+```bash
 cf unmap-route articulate apps.pcf.<yourdomain> --hostname <articulate_hostname>
 ```
 ![](images/image68.png)
@@ -733,107 +727,31 @@ cf unmap-route articulate apps.pcf.<yourdomain> --hostname <articulate_hostname>
 
 - Remove the temp route from the articulate-v2 application.
 
-```
+```bash
 cf unmap-route articulate-v2 apps.pcf.<yourdomain> --hostname <articulate_hostname>
 ```
 ![](images/image70.png)
 
-- ***Congratulations!*** You performed a blue-green deployment.
+- **Congratulations!** You performed a blue-green deployment.
 
 - Let’s reset our environment. Delete the articulate application.
 
-```
+```bash
 cf delete articulate
 ```
 
 - Rename articulate-v2 to articulate.
 
-```
+```bash
 cf rename articulate-v2 articulate
 ```
 
 - Restart articulate.
 
-```
+```bash
 cf restart articulate
 ```
 ![](images/image71.png)
-
-<a id="autoscaler"></a>
-## Application Autoscaler 
-
-So, you can deploy your app, you can scale it. But what if we wish to automate scaling an application up and down during periods of higher and subsequently lower traffic. PCF allows us to automate scaling via the marketplace service named the App Autoscaler.
-
-- To learn more read the documentation about App [Autoscaling](https://docs.pivotal.io/pivotalcf/2-1/appsman-services/autoscaler/using-autoscaler.html).
-
-### **STEP 25**: Setup App Autoscaling
-
-- Create a autoscaler service instance.
-
-```
-cf create-service app-autoscaler standard autoscaler
-```
-![](images/image72.png)
-
-- Bind the service to articulate.
-
-```
-cf bind-service articulate autoscaler
-```
-
-- Restart the application.
-
-```
-cf restart articulate
-```
-![](images/image73.png)
-
-- Go to Apps Manager and click on ***Services***.
-
-    ![](images/image74.png)
-
-- Click on the ***autoscaler*** service. Click on ***Settings*** then click ***Manage***
-
-    ![](images/image75.png)
-
-
-- Click ***edit*** and set Minimum Instance Limit to ***2*** and Maximum Instance Limit to ***5***. Click ***Save***
-
-    ![](images/image76.png)
-
-- Back on the Apps Manager click on the ***articulate*** application. On the Overview tab click ***Autoscaling***
-
-    ![](images/image77.png)
-
-***Note:*** Notice that after a short bit of time, the number of instances changes to 2 to reflect the minimum intance limit.
-
-![](images/image81.png)
-
-- To cleanup, Unbind the autoscaler service instance.
-
-```
-cf unbind-service articulate autoscaler
-```
-
-- Delete the autoscaler service instance.
-
-```
-cf delete-service autoscaler
-```
-
-- Scale articulate back to original settings.
-
-```
-cf scale articulate -i 1
-```
-![](images/image78.png)
-
-- Restart articulate.
-
-```
-cf restart articulate
-```
-![](images/image79.png)
 
 <a id="pasadmin"></a>
 ## PAS Administrator Functions 
@@ -853,12 +771,17 @@ This ongoing responsibility may include but is not limited to:
 
 In this section we will explore some of these administrator activities. To learn more read the [PAS Administrator Guide](https://docs.pivotal.io/pivotalcf/2-2/pas/index.html).
 
-### **STEP 26**: Setup App Autoscaling
+### **STEP 25**: ToDo
+
+<a id="boshadmin"></a>
+## BOSH Troubleshooting
+
+**BOSH** is a project that unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software. BOSH can provision and deploy software over hundreds of VMs. It also performs monitoring, failure recovery, and software updates with zero-to-minimal downtime. 
+
+In this section we will explore using the BOSH CLI to help diagnose and resolve issues with your Pivotal Cloud Foundry (PCF) deployment. You can find out more about Advanced Troubleshooting with the BOSH CLI [here](https://docs.pivotal.io/pivotalcf/2-3/customizing/trouble-advanced.html).
+
+### **STEP 26**: ToDo
 
 
 
-
-
-
-
-- ***You have completed workshop!!!***
+- **You have completed workshop!!!**
