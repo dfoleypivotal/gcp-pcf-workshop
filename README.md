@@ -17,6 +17,7 @@ This workshop will walk you through the process of deploying and monitoring an a
 - [Consume GCP Services from PCF application](#services)
 - [Understand how to do a Blue Green Deployment](#bluegreen)
 - [PAS Administrator Functions](#pasadmin)
+- [BOSH Troubleshooting](#boshadmin)
 
 ## Required Artifacts
 - The following lab requires a Google Cloud Platform account.
@@ -817,7 +818,7 @@ cf login
 
 - Login with the newly create developer user. Notice that now you only have access to the **Demo** Org and no longer have access to the **System** Org. Only administrators should have access to system Org.
 
-    ![](images/image89.png)
+    ![](images/image90.png)
 
 
 <a id="boshadmin"></a>
