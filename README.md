@@ -771,7 +771,54 @@ This ongoing responsibility may include but is not limited to:
 
 In this section we will explore some of these administrator activities. To learn more read the [PAS Administrator Guide](https://docs.pivotal.io/pivotalcf/2-2/pas/index.html).
 
-### **STEP 25**: ToDo
+### **STEP 25**: Creating and Managing Users with the cf CLI
+
+Using the Cloud Foundry Command Line Interface (cf CLI), administrators, Org Managers, and Space Managers can manage users. Cloud Foundry uses role-based access control, with each role granting permissions in either an organization or an application space.
+
+For more information you can access Pivotal Documentation at [here](https://docs.cloudfoundry.org/adminguide/cli-user-management.html)
+
+- First step is to create the new user. Enter the following command:
+
+```
+cf create-user <username> <password>
+```
+
+![](images/image86.png)
+
+- Next we will give our new user organization level role or **OrgManager**
+
+```
+cf set-org-role dfoley demo OrgManager
+```
+
+![](images/image87.png)
+
+- Last we want to give our new user a specific role for our space. We will treat this user as a developer and give the **SpaceDeveloper** role:
+
+```
+cf set-space-role dfoley demo dev SpaceDeveloper
+```
+
+![](images/image88.png)
+
+- Now that we have a new user we can login to the cf CLI with our new user.
+
+```
+cf login 
+```
+
+![](images/image89.png)
+
+- Now you can access **cf CLI** commands as the new developer user. Also we can login to the App Manager as our new user and see how we only have access to Org's and Spaces that we have roles allocated.  
+
+- From any browser, open a new tab and go to the URL:
+
+   `https://apps.sys.pcf.<yourdomain>`
+
+- Login with the newly create developer user. Notice that now you only have access to the **Demo** Org and no longer have access to the **System** Org. Only administrators should have access to system Org.
+
+    ![](images/image89.png)
+
 
 <a id="boshadmin"></a>
 ## BOSH Troubleshooting
