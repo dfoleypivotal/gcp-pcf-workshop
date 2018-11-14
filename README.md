@@ -780,7 +780,7 @@ For more information you can access Pivotal Documentation at [here](https://docs
 
 - First step is to create the new user. Enter the following command:
 
-```
+```bash
 cf create-user <username> <password>
 ```
 
@@ -788,7 +788,7 @@ cf create-user <username> <password>
 
 - Next we will give our new user organization level role or **OrgManager**
 
-```
+```bash
 cf set-org-role dfoley demo OrgManager
 ```
 
@@ -796,7 +796,7 @@ cf set-org-role dfoley demo OrgManager
 
 - Last we want to give our new user a specific role for our space. We will treat this user as a developer and give the **SpaceDeveloper** role:
 
-```
+```bash
 cf set-space-role dfoley demo dev SpaceDeveloper
 ```
 
@@ -804,7 +804,7 @@ cf set-space-role dfoley demo dev SpaceDeveloper
 
 - Now that we have a new user we can login to the cf CLI with our new user.
 
-```
+```bash
 cf login 
 ```
 
@@ -828,7 +828,63 @@ cf login
 
 In this section we will explore using the BOSH CLI to help diagnose and resolve issues with your Pivotal Cloud Foundry (PCF) deployment. You can find out more about Advanced Troubleshooting with the BOSH CLI [here](https://docs.pivotal.io/pivotalcf/2-3/customizing/trouble-advanced.html).
 
-### **STEP 26**: ToDo
+### **STEP 26**: Check BOSH Deployments
+
+A deployment is a collection of VMs, built from a stemcell, that has been populated with specific releases and disks that keep persistent data. These resources are created in the IaaS based on a deployment manifest and managed by the Director, a centralized management server.
+
+- To view deployments we will need to install **BOSH CLI**. To find out more about **BOSH CLI** you can access instructions [here](https://bosh.io/docs/cli-v2-install/)
+
+- From the Cloud Shell execute the following commands
+
+```bash
+cd ~
+wget https://github.com/cloudfoundry/bosh-cli/releases/download/v5.3.1/bosh-cli-5.3.1-linux-amd64
+chmod +x bosh-cli-5.3.1-linux-amd64
+mv bosh-cli-5.3.1-linux-amd64 bin/bosh
+bosh -v
+```
+
+![](images/image91.png)
+
+- Next we will install the **om CLI**. OM is a tool that helps you configure and deploy tiles to Ops-Manager. To find out more about **OM** yiu can access documentation [here](https://github.com/pivotal-cf/om)
+
+- To install execute the following commands:
+
+```bash 
+ wget https://github.com/pivotal-cf/om/releases/download/0.44.0/om-linux
+ chmod +x om-linux
+ mv om-linux bin/om
+ om -v
+```
+
+![](images/image92.png)
+
+- The **GCP Quickstart** comes with a script that helps setup your environment to use the **bosh CLI**.  Source the script **target-bosh.sh**
+
+```bash
+cd gcp-pcf-quickstart/
+export ENV_DIR=$(pwd)/env/pcf
+. ./util/target_bosh.sh
+env | grep BOSH
+```
+
+![](images/image93.png)
+
+- Now we are able to execute **bosh** commands against our environment. First let looks at the deployments. When you execute **bosh deployments** you will notice that we have 3 deployments **(Pivotal Application Service, GCP Service Broker, GCP Stackdriver Nozzle)**
+
+```bash
+bosh deployments
+```
+
+![](images/image94.png)
+
+- Next we call look at the VM's associated with a specific deployment.  Use the PAS deployment name from the **bosh deployments** output as input for the next command. 
+
+```bash
+bosh -d <PAS deployment name> vms
+```
+
+![](images/image95.png)
 
 
 
