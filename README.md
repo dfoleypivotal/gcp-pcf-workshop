@@ -846,7 +846,7 @@ bosh -v
 
 ![](images/image91.png)
 
-- Next we will install the **om CLI**. OM is a tool that helps you configure and deploy tiles to Ops-Manager. To find out more about **OM** yiu can access documentation [here](https://github.com/pivotal-cf/om)
+- Next we will install the **om CLI**. OM is a tool that helps you configure and deploy tiles to Ops-Manager. To find out more about **OM** you can access documentation [here](https://github.com/pivotal-cf/om)
 
 - To install execute the following commands:
 
