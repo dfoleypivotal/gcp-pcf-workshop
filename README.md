@@ -496,6 +496,7 @@ Review the [documentation](https://docs.pivotal.io/partners/gcp-sb/index.html) f
 ```bash
 cf marketplace
 ```
+
 ![](images/image37.png)
 
 - As you can see many of the GCP services are available. Lets see what plans are available for Cloud SQL.
@@ -503,13 +504,15 @@ cf marketplace
 ```bash
 cf marketplace -s google-cloudsql-mysql
 ``` 
+
 ![](images/image38.png)
 
 - Create a Cloud SQL MySQL database from the marketplace.
 
 ```bash
-cf create-service google-cloudsql-mysql mysql-micro-dev attendee-mysql
+cf create-service google-cloudsql-mysql mysql-db-f1-micro attendee-mysql
 ```
+
 ![](images/image39.png)
 
 - You can monitory the progress with the following command.
@@ -517,6 +520,7 @@ cf create-service google-cloudsql-mysql mysql-micro-dev attendee-mysql
 ```bash
 cf service attendee-mysql
 ```
+
 ![](images/image40.png)
 
 - You can also view the progress from the GCP Console.  Back in the browser navigate to the SQL services in the GCP Console.
@@ -546,8 +550,9 @@ cf service attendee-mysql
 - Now that we have a running database we need to bind the service to the application.
 
 ```bash
-cf bind-service attendee-service attendee-mysql -c '{"role":"cloudsql.admin"}'
+cf bind-service attendee-service attendee-mysql -c '{"role":"cloudsql.client"}'
 ```
+
 ![](images/image45.png)
 
 - Restart the application
@@ -555,6 +560,7 @@ cf bind-service attendee-service attendee-mysql -c '{"role":"cloudsql.admin"}'
 ```bash
 cf restart attendee-service
 ```
+
 ![](images/image47.png)
 
 - View the attendee-service in a browser.
@@ -584,6 +590,7 @@ uri> **http://{{attendees_app_uri}}/**
 ```bash
 cf bind-service articulate attendee-service
 ```
+
 ![](images/image50.png)
 
 - Restart the application.
@@ -591,6 +598,7 @@ cf bind-service articulate attendee-service
 ```bash
 cf restart articulate
 ```
+
 ![](images/image51.png)
 
 - Refresh the articulate Services page. You can now see the attendee-service listed under **Services**.
@@ -602,6 +610,7 @@ cf restart articulate
 ```bash
 cf env articulate
 ```
+
 ![](images/image53.png)
 
 - Add some attendees.
