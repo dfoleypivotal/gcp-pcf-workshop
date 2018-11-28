@@ -412,24 +412,23 @@ cf restart articulate
 ```
 ![](images/image73.png)
 
-- Go to Apps Manager and click on **Services**.
+- Go to Apps Manager and click on **App** for the **dev** space.
 
     ![](images/image74.png)
 
-- Click on the **autoscaler** service. Click on **Settings** then click **Manage**
+- Click on **articulate** to bring up application specific configuration.
 
-    ![](images/image75.png)
+    ![](images/image74.5.png)
 
+- Enable **Autoscaling** then click **Manage Autoscaling**
 
-- Click **edit** and set Minimum Instance Limit to **2** and Maximum Instance Limit to **5**. Click **Save**
+    ![](images/image74.7.png)
 
-    ![](images/image76.png)
+- Set Minimum Instance Limit to **3** and Maximum Instance Limit to **5**. Click **Apply Changes** and click **X** to exit Autoscaling configuration.
 
-- Back on the Apps Manager click on the **articulate** application. On the Overview tab click **Autoscaling**
+    ![](images/image75.2.png)
 
-    ![](images/image77.png)
-
-**Note:** Notice that after a short bit of time, the number of instances changes to 2 to reflect the minimum intance limit.
+**Note:** Notice that after a short bit of time, the number of instances changes to 3 to reflect the minimum instance limit.
 
 ![](images/image81.png)
 
