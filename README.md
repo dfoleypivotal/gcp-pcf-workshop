@@ -668,7 +668,19 @@ This lab will walk you through the steps to deploy a new version of an applicati
 ```bash
 cf stop attendee-service
 ```
+
 ![](images/image59.png)
+
+- If you also deployed **Awwvision, Link Shortener and Store Locator** you may also what to stop to free up resources.
+
+```bash
+cf stop awwvision
+cf stop link-shortener
+cf stop storelocator
+```
+
+![](images/image59.2.png)
+
 
 ### **STEP 22**: Generate Traffic
 
@@ -797,7 +809,7 @@ cf create-user <username> <password>
 - Next we will give our new user organization level role or **OrgManager**
 
 ```bash
-cf set-org-role dfoley demo OrgManager
+cf set-org-role <username> demo OrgManager
 ```
 
 ![](images/image87.png)
@@ -805,7 +817,7 @@ cf set-org-role dfoley demo OrgManager
 - Last we want to give our new user a specific role for our space. We will treat this user as a developer and give the **SpaceDeveloper** role:
 
 ```bash
-cf set-space-role dfoley demo dev SpaceDeveloper
+cf set-space-role <username> demo dev SpaceDeveloper
 ```
 
 ![](images/image88.png)
@@ -893,6 +905,44 @@ bosh -d <PAS deployment name> vms
 ```
 
 ![](images/image95.png)
+
+### **STEP 27**: BOSH cloud-check
+
+- Run the **bosh cloud-check** command to instruct BOSH to detect differences between the VM state database maintained by the BOSH Director and the actual state of the VMs. 
+
+```bash
+bosh -d <PAS deployment name> cloud-check
+```
+
+![](images/image96.png)
+
+### **STEP 27**: BOSH SSH
+
+Use **bosh ssh** to log in to the VMs in your deployment with SSH.
+
+- First we need to install the **netcat** utility.
+
+```bash
+sudo apt-get install netcat
+```
+
+![](images/image98.png)
+
+- Use the BOSH command above to list our all VM's for the PAS deployment. Capture instance name for the **compute** VM.
+
+```bash
+bosh -d <PAS deployment name> vms
+```
+
+![](images/image97.png)
+
+- Next use the instance name to SSH into the VM.
+
+```bash
+bosh -d <PAS deployment name> ssh VM-NAME/GUID
+```
+
+![](images/image97.png)
 
 
 
