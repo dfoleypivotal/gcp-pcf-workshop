@@ -923,12 +923,12 @@ Use **bosh ssh** to log in to the VMs in your deployment with SSH.
 - First we need to install the **netcat** utility.
 
 ```bash
-sudo apt-get install netcat
+sudo apt-get install netcat-openbsd
 ```
 
 ![](images/image98.png)
 
-- Use the BOSH command above to list our all VM's for the PAS deployment. Capture instance name for the **compute** VM.
+- Use the **BOSH vms** command to list out nall VM's for the PAS deployment. Capture instance name for the **control** VM.
 
 ```bash
 bosh -d <PAS deployment name> vms
@@ -942,8 +942,7 @@ bosh -d <PAS deployment name> vms
 bosh -d <PAS deployment name> ssh VM-NAME/GUID
 ```
 
-![](images/image97.png)
-
+![](images/image99.png)
 
 
 - **You have completed workshop!!!**
