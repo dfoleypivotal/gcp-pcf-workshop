@@ -916,7 +916,7 @@ bosh -d <PAS deployment name> cloud-check
 
 ![](images/image96.png)
 
-### **STEP 27**: BOSH SSH
+### **STEP 28**: BOSH SSH
 
 Use **bosh ssh** to log in to the VMs in your deployment with SSH.
 
