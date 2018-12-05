@@ -944,5 +944,34 @@ bosh -d <PAS deployment name> ssh VM-NAME/GUID
 
 ![](images/image99.png)
 
+### **STEP 29**: Process Monitoring and Logs
+
+The Agent on each deployment job VM is responsible for managing lifecycle of each enabled release job. It starts, monitors, restarts and stops release jobs' processes. These tasks are done with the help of the **Monit**. The Agent communicates with the Monit daemon through Monit HTTP APIs to add, remove, start, stop, monitor and unmonitor release jobs' processes. Learn more [here](https://bosh.io/docs/vm-monit/)
+
+- First let switch to root user who has access to run the **monit** cli. As root we can execute **monit summary** to see what is running on the VM.  Since we are using the Small Foot print you will notice that many different process are running on the control VM.
+
+```bash
+sudo su -
+monit summary
+```
+
+![](images/image100.png)
+
+- You can assess on the VM at /var/vcap/sys/log/`<package>`/*.log. Learn more [here](https://bosh.io/docs/job-logs/)
+
+```bash
+ls /var/vcap/sys/log
+```
+
+![](images/image101.png)
+
+- Feel free to look around at different logs.  If you had an issue with authentication you might want to look at the **uaa** logs.
+
+```bash
+ls /var/vcap/sys/log/uaa
+```
+
+![](images/image102.png)
+
 
 - **You have completed workshop!!!**
