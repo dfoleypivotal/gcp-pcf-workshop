@@ -1,5 +1,5 @@
 ![](images/title.png)  
-Update: November 29, 2018
+Update: February 4, 2019
 
 ## Introduction
 
@@ -127,7 +127,7 @@ cf target -o demo -s dev
 <a id="pushapp"></a>
 ## Pushing Apps 
 
-You deploy an app to Cloud Foundry by running a cf push command from the Cloud Foundry Command Line Interface (cf CLI). Between the time that you run cf push and the time that the app is available, Cloud Foundry performs the following tasks:
+You deploy an app to Cloud Foundry by running a **cf push** command from the Cloud Foundry Command Line Interface (cf CLI). Between the time that you run cf push and the time that the app is available, Cloud Foundry performs the following tasks:
 
 - Uploads and stores app files
 - Examines and stores app metadata
@@ -211,7 +211,7 @@ curl <your php application url>
 
 You just deployed four applications each based on a different language and runtime. Pivotal Cloud Foundry is a polyglot platform, meaning it supports multiple languages and does so in a pluggable way (via buildpacks)!
 
-- Switch over to you browser and let refresh the Apps Manger page. You may have to login again. On the left hand side select the **demo** ORG and then select the **dev** SPACE. You should now see all 4 application.
+- Switch over to you browser and let refresh the Apps Manger page. You may have to login again. Select the **demo** ORG and then select the **dev** SPACE. You should now see all 4 application.
 
     ![](images/image19.png)
 
@@ -839,6 +839,7 @@ cf login
 - Login with the newly create developer user. Notice that now you only have access to the **Demo** Org and no longer have access to the **System** Org. Only administrators should have access to system Org.
 
     ![](images/image90.png)
+    ![](images/image90.5.png)
 
 
 <a id="boshadmin"></a>
